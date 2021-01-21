@@ -1,4 +1,4 @@
-from __future__ import print_function, division
+# from __future__ import print_function, division
 from inspect import currentframe, getfile, getsourcefile
 from os.path import dirname, join, isdir, abspath
 import os
@@ -13,7 +13,7 @@ def get_appliance_types_from_disk():
     obj_cache = {}
     for filename in obj_filenames:
         with open(filename, 'rb') as fh:
-            objs = yaml.safe_load(fh)
+            objs = yaml.load(fh, Loader=yaml.FullLoader)
         obj_cache.update(objs)
 
     return obj_cache

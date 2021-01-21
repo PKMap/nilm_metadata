@@ -6,7 +6,7 @@ from os import listdir
 from sys import stderr
 from copy import deepcopy
 from six import iteritems
-from .object_concatenation import get_appliance_types
+from nilm_metadata.object_concatenation import get_appliance_types
 
 
 class NilmMetadataError(Exception):
@@ -75,7 +75,6 @@ def save_yaml_to_datastore(yaml_dir, store):
 
     # Load Dataset and MeterDevice metadata
     metadata = _load_file(yaml_dir, 'dataset.yaml')
-    print("Loaded metadata")
     meter_devices = _load_file(yaml_dir, 'meter_devices.yaml')
     metadata['meter_devices'] = meter_devices
     store.save_metadata('/', metadata)
@@ -103,7 +102,7 @@ def _load_file(yaml_dir, yaml_filename):
     yaml_full_filename = join(yaml_dir, yaml_filename)
     if isfile(yaml_full_filename):
         with open(yaml_full_filename, 'rb') as fh:
-            return yaml.safe_load(fh)
+            return yaml.load(fh, Loader=yaml.FullLoader)
     else:
         print(yaml_full_filename, "not found.", file=stderr)
 
